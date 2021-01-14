@@ -24,23 +24,68 @@ pub fn add_two_numbers(
     let (val, carry) = do_sum(node1_val, node2_val, &0);
 
     let mut next_carry = carry;
-    let mut node1_next = node1.next.unwrap_or(fulfill_empty_node());
-    let mut node2_next = node2.next.unwrap_or(fulfill_empty_node());
-    let mut result_node = ListNode::new(val);
+    let mut has_node1_next: bool;
+    let mut has_node2_next: bool;
+    let mut node1_next: Box<ListNode>;
+    let mut node2_next: Box<ListNode>;
+    let mut node_head = Some(Box::new(ListNode::new(val)));
+    let mut node_current = node_head.as_mut();
 
-    while node1_next.val > 0 || node2_next.val > 0 || next_carry > 0 {
+    match node1.next {
+        Some(node_next) => {
+            has_node1_next = true;
+            node1_next = node_next;
+        }
+        None => {
+            has_node1_next = false;
+            node1_next = fulfill_empty_node()
+        }
+    }
+
+    match node2.next {
+        Some(node_next) => {
+            has_node2_next = true;
+            node2_next = node_next;
+        }
+        None => {
+            has_node2_next = false;
+            node2_next = fulfill_empty_node()
+        }
+    }
+
+    while has_node1_next || has_node2_next || next_carry > 0 {
         let (val, carry) = do_sum(&node1_next.val, &node2_next.val, &next_carry);
         next_carry = carry;
 
-        let mut parent_node = ListNode::new(val);
-        parent_node.next = Some(Box::new(result_node));
-        result_node = parent_node;
+        if let Some(current) = node_current {
+            current.next = Some(Box::new(ListNode::new(val)));
+            node_current = current.next.as_mut();
+        }
 
-        node1_next = node1_next.next.unwrap_or(fulfill_empty_node());
-        node2_next = node2_next.next.unwrap_or(fulfill_empty_node());
+        match node1_next.next {
+            Some(node_next) => {
+                has_node1_next = true;
+                node1_next = node_next;
+            }
+            None => {
+                has_node1_next = false;
+                node1_next = fulfill_empty_node()
+            }
+        }
+
+        match node2_next.next {
+            Some(node_next) => {
+                has_node2_next = true;
+                node2_next = node_next;
+            }
+            None => {
+                has_node2_next = false;
+                node2_next = fulfill_empty_node()
+            }
+        }
     }
 
-    Some(Box::new(result_node))
+    Some(node_head.unwrap())
 }
 
 pub fn do_sum(val1: &i32, val2: &i32, carry: &i32) -> (i32, i32) {
