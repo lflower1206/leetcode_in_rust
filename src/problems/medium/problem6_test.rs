@@ -9,7 +9,6 @@ mod problem6 {
 
     #[test]
     fn it_should_return_pahnaplsiigyir() {
-        // PAHNAPLSIIGYIR
         assert_eq!(
             convert(String::from("paypalishiring"), 3),
             String::from("pahnaplsiigyir")
@@ -19,5 +18,10 @@ mod problem6 {
     #[test]
     fn it_should_return_ab() {
         assert_eq!(convert(String::from("ab"), 1), String::from("ab"))
+    }
+
+    #[test]
+    fn it_should_return_abc() {
+        assert_eq!(convert(String::from("abc"), 1), String::from("abc"))
     }
 }

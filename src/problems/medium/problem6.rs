@@ -1,17 +1,20 @@
 pub fn convert(s: String, num_rows: i32) -> String {
-    if s.len() <= 1 {
+    if s.len() <= 2 {
         return s;
     }
 
     let input = s.into_bytes();
     let len = input.len();
     let num_of_rows = num_rows as usize;
-    let offset: usize = 2 * num_of_rows - 2;
+    let offset: usize = if num_of_rows == 1 {
+        1
+    } else {
+        2 * num_of_rows - 2
+    };
 
     let mut result: Vec<char> = Vec::with_capacity(len);
-    let mut index_row: usize = 0;
 
-    while index_row < num_of_rows {
+    for index_row in 0usize..num_of_rows {
         let mut index_column: usize = index_row;
 
         while index_column < len {
@@ -26,13 +29,8 @@ pub fn convert(s: String, num_rows: i32) -> String {
                 }
             }
 
-            if offset == 0 {
-                index_column = index_column + 1;
-            } else {
-                index_column = index_next_column;
-            }
+            index_column = index_next_column;
         }
-        index_row = index_row + 1
     }
     result.iter().collect::<String>()
 }
