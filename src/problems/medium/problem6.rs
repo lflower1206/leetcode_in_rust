@@ -1,16 +1,12 @@
 pub fn convert(s: String, num_rows: i32) -> String {
-    if s.len() <= 2 {
+    if s.len() <= 2 || num_rows == 1 {
         return s;
     }
 
     let input = s.into_bytes();
     let len = input.len();
     let num_of_rows = num_rows as usize;
-    let offset: usize = if num_of_rows == 1 {
-        1
-    } else {
-        2 * num_of_rows - 2
-    };
+    let offset: usize = 2 * num_of_rows - 2;
 
     let mut result: Vec<char> = Vec::with_capacity(len);
 
