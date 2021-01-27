@@ -6,3 +6,5 @@ pub mod problem3_test;
 
 pub mod problem6;
 pub mod problem6_test;
+
+pub mod problem11;
