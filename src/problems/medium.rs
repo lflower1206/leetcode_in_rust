@@ -8,3 +8,4 @@ pub mod problem6;
 pub mod problem6_test;
 
 pub mod problem11;
+pub mod problem12;
